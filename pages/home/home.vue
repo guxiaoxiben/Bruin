@@ -25,14 +25,14 @@
 				<!-- 图片盒子 -->
 				<view class="floor-img-box">
 					<!-- 左侧 -->
-					<view class="left-img-box">
+					<navigator class="left-img-box" :url="item.product_list[0].url">
 						<image :src="item.product_list[0].image_src" :style="{width: item.product_list[0].image_width + 'rpx'}" mode="widthFix"></image>
-					</view>
+					</navigator>
 					<!-- 右侧 -->
 					<view class="right-img-box">
-						<view class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0">
+						<navigator class="right-img-item" v-for="(item2, index2) in item.product_list" :key="index2" v-if="index2 !== 0" :url="item2.url">
 						    <image :src="item2.image_src" mode="widthFix" :style="{width: item2.image_width + 'rpx'}"></image>
-						</view>
+						</navigator>
 					</view>
 				</view>
 			</view>
@@ -83,6 +83,12 @@
 			async getFloorList(){
 				const {data:res} = await uni.$http.get('/api/public/v1/home/floordata')
 				if(res.meta.status !== 200) return uni.$showMsg()
+				// forEach循环处理url地址
+				res.message.forEach(floor => {
+				   floor.product_list.forEach(prod => {
+				     prod.url = '/subpkg/goods_list/goods_list?' + prod.navigator_url.split('?')[1]
+				   })
+				})
 				this.floorList = res.message
 			}
 		}
