@@ -16,6 +16,14 @@ $http.beforeRequest = function (options) {
 $http.afterRequest = function () {
 	uni.hideLoading()
 }
+// 封装消息提示
+uni.$showMsg = function(title="数据请求失败",duration=1500){
+	uni.showToast({
+		title,
+		duration,
+		icon:'none'
+	})
+}
 
 // #ifndef VUE3
 import Vue from 'vue'
