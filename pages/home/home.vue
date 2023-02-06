@@ -9,7 +9,7 @@
 			</swiper-item>
 		</swiper>
 		
-		<!-- 分类导航 -->
+		<!-- 分类导航  -->
 		<view class="nav-list">
 			<view class="nav-item" v-for="(item,index) in navList" :key="index" @click="navClickHandler(item)">
 				<image :src="item.image_src"  class="nav-img"></image>
@@ -91,7 +91,7 @@
 				})
 				this.floorList = res.message
 			}
-		}庀
+		}
 	}
 </script>
 
