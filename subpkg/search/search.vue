@@ -6,11 +6,24 @@
 		</view>
 		
 		<!-- 搜索推荐列表 -->
-		<view class="sugg-list">
+		<view class="sugg-list" v-if="searchResults.length !== 0">
 			<view class="sugg-item" v-for="(item,index) in searchResults" :key="index" @click="gotoDetail(item)">
 				<view class="goods-name">{{item.goods_name}}</view>
 				<uni-icons type="arrowright" size="16"></uni-icons>
 			</view>
+		</view>
+		
+		<!-- 搜索历史 -->
+		<view class="history-box" v-else>
+		    <!-- 标题区域 -->
+				<view class="history-title">
+					<text>搜索历史</text>
+					<uni-icons type="trash" size="17"></uni-icons>
+				</view>
+		  <!-- 列表区域 -->
+				<view class="history-list">
+					<uni-tag :text="item" v-for="(item, i) in historys" :key="i"></uni-tag>
+				</view>
 		</view>
 	</view>
 </template>
@@ -24,7 +37,9 @@
 				// 关键词
 				kk:'',
 				// 搜索列表
-				searchResults: []
+				searchResults: [],
+				// 搜索关键词的历史记录
+				historyList: ['a', 'app', 'apple']
 			};
 		},
 		methods:{
@@ -47,6 +62,8 @@
 				const { data:res } = await uni.$http.get('/api/public/v1/goods/qsearch',{ query: this.kk })
 				if (res.meta.status !== 200) return uni.$showMsg()
 				this.searchResults = res.message
+				// 查询后保存到历史记录
+				this.saveSearchHistory()
 			},
 			// 点击详情跳转
 			gotoDetail(item) {
@@ -54,6 +71,14 @@
 			    // 指定详情页面的 URL 地址，并传递 goods_id 参数
 			    url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id
 			  })
+			},
+			saveSearchHistory() {
+				this.historyList.push(this.kk)
+			}
+		},
+		computed:{
+			historys() {
+				return [...this.historyList].reverse()
 			}
 		}
 	}
@@ -85,6 +110,30 @@
       // 文本溢出后，使用 ... 代替
       text-overflow: ellipsis;
       margin-right: 3px;
+    }
+  }
+}
+// 搜索历史样式
+.history-box {
+  padding: 0 5px;
+
+  .history-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    font-size: 13px;
+    border-bottom: 1px solid #efefef;
+  }
+
+  .history-list {
+	margin-top: 13rpx;
+    display: flex;
+    flex-wrap: wrap;
+
+    .uni-tag {
+      margin-top: 5px;
+      margin-right: 5px;
     }
   }
 }
