@@ -1,7 +1,7 @@
 <template>
 	<view class="my-search-contationer" :style="{'background-color': bgcolor}" @click="searchBoxHandler">
 		<view class="my-search-box" :style="{'border-radius': radius + 'px'}">
-			<!-- <uni-icons type="search" size="17"></uni-icons> -->
+			<uni-icons type="search" size="17"></uni-icons>
 			<text class="placeholder">搜索</text>
 		</view>
 	</view>
