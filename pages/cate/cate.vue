@@ -14,7 +14,7 @@
 					<view class="cate-lv2-title">{{item2.cat_name}}</view>
 					<!-- 三级分类 -->
 					<view class="cate-lv3-list">
-						<view class="cate-lv3-item" v-for="(item3,index3) in item2.children" :key="index3">
+						<view class="cate-lv3-item" v-for="(item3,index3) in item2.children" :key="index3" @click="gotoGoodsList(item3)">
 							<image :src="item3.cat_icon"></image>
 							<text>{{item3.cat_name}}</text>
 						</view>
@@ -63,6 +63,12 @@
 			this.cateLevel2 = this.cateList[index].children
 			// 回滚到顶部
 			this.scrollTop = this.scrollTop === 0 ? 1 :0
+		},
+		// 点击三级分类跳转
+		gotoGoodsList(item){
+			uni.navigateTo({
+				url:'/subpkg/goods_list/goods_list?cid=' + item.cat_id
+			})
 		}
 	}
   }
