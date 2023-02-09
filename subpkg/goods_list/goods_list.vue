@@ -1,9 +1,9 @@
 <template>
   <view>
     <view class="goods-list">
-      <block v-for="(item, i) in goodsList" :key="i">
+      <view v-for="(item, i) in goodsList" :key="i" @click="gotoDetail(item)">
          <my-goods :goods="item"></my-goods>
-      </block>
+      </view>
     </view>
   </view>
 </template>
@@ -50,6 +50,12 @@
 				if(res.meta.status !== 200) return uni.$showMsg
 				this.goodsList = [...res.message.goods, ...res.message.goods]
 				this.total = res.message.total
+			},
+			// 点击跳转
+			gotoDetail(item) {
+				uni.navigateTo({
+					url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id
+				})
 			}
 		},
 		// 触底的事件
