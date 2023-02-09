@@ -78,6 +78,7 @@
 		},
 		computed:{
 			historys() {
+				// reverse() 使数组翻转 例如[1,2,3] ===> [3,2,1]
 				return [...this.historyList].reverse()
 			}
 		}
