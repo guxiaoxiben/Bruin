@@ -93,7 +93,7 @@
 			buttonClick(e){
 				console.log('3333',e);
 				if (e.content.text === '加入购物车') {
-					// 切换到购物车页面
+					// 切换到购物车页面 
 					uni.switchTab({
 					    url: '/pages/cart/cart'
 					})
