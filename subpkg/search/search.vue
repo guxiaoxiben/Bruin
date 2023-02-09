@@ -18,11 +18,11 @@
 		    <!-- 标题区域 -->
 				<view class="history-title">
 					<text>搜索历史</text>
-					<uni-icons type="trash" size="17"></uni-icons>
+					<uni-icons type="trash" size="17" @click="cleanHistory"></uni-icons>
 				</view>
 		  <!-- 列表区域 -->
 				<view class="history-list">
-					<uni-tag :text="item" v-for="(item, i) in historys" :key="i"></uni-tag>
+					<uni-tag :text="item" v-for="(item, i) in historys" :key="i" @click="gotoGoodsList(item)"></uni-tag>
 				</view>
 		</view>
 	</view>
@@ -39,8 +39,11 @@
 				// 搜索列表
 				searchResults: [],
 				// 搜索关键词的历史记录
-				historyList: ['a', 'app', 'apple']
+				historyList: []
 			};
+		},
+		onLoad() {
+		  this.historyList = JSON.parse(uni.getStorageSync('kk') || '[]')
 		},
 		methods:{
 			input(e) {
@@ -72,8 +75,29 @@
 			    url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id
 			  })
 			},
+			// 保留搜索历史关键字
 			saveSearchHistory() {
-				this.historyList.push(this.kk)
+				// this.historyList.push(this.kk)
+				// 将数组转换成ste
+				const set = new Set(this.historyList)
+				// 删除
+				set.delete(this.kk)
+				// 新增
+				set.add(this.kk)
+				this.historyList = Array.from(set)
+				// 调用 uni.setStorageSync(key, value) 将搜索历史记录持久化存储到本地
+				uni.setStorageSync('kk', JSON.stringify(this.historyList))
+			},
+			// 点击清空历史记录
+			cleanHistory() {
+			  this.historyList = []
+			  uni.setStorageSync('kk', '[]')
+			},
+			// 点击跳转
+			gotoGoodsList(item) {
+			  uni.navigateTo({
+			    url: '/subpkg/goods_list/goods_list?query=' + item
+			  })
 			}
 		},
 		computed:{
