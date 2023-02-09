@@ -27,6 +27,11 @@
 		
 		<!-- 商品详情信息 -->
 		<rich-text :nodes="goods_info.goods_introduce"></rich-text>
+		
+		<!-- 商品导航 -->
+		<view class="goods_nav">
+			<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @buttonClick="buttonClick"/>
+		</view>
 	</view>
 </template>
 
@@ -35,7 +40,32 @@
 		data() {
 			return {
 				// 商品详情对象
-				goods_info: {}
+				goods_info: {},
+				// 左侧按钮组的配置对象
+				options:[
+					{
+						icon:'shop',
+						text:'店铺'
+					},
+					{
+						icon:'cart',
+						text:'购物车',
+						info:2
+					}
+				],
+				// 右侧按钮组的配置对象
+				buttonGroup:[
+					{
+						text: '加入购物车',
+						backgroundColor: '#ff0000',
+						color: '#fff'
+					},
+					{
+						text: '立即购买',
+						backgroundColor: '#ffa200',
+						color: '#fff'
+					}
+				]
 			}
 		},
 		methods: {
@@ -58,8 +88,17 @@
 				    // 所有图片 url 地址的数组
 				    urls: this.goods_info.pics.map(x => x.pics_big)
 				  })
+			},
+			// 底部导航按钮点击
+			buttonClick(e){
+				console.log('3333',e);
+				if (e.content.text === '加入购物车') {
+					// 切换到购物车页面
+					uni.switchTab({
+					    url: '/pages/cart/cart'
+					})
+				}
 			}
-			
 		},
 		onLoad(options) {
 			console.log(options);
@@ -119,5 +158,19 @@ swiper {
     font-size: 12px;
     color: gray;
   }
+}
+// 商品导航
+.goods-detail-container {
+  // 给页面外层的容器，添加 50px 的内padding，
+  // 防止页面内容被底部的商品导航组件遮盖
+  padding-bottom: 50px;
+}
+
+.goods_nav {
+  // 为商品导航组件添加固定定位
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 </style>
