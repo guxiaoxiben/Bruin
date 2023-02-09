@@ -39,12 +39,14 @@
 			this.getGoodsList()
 		},
 		methods:{
-			async getGoodsList() {
+			async getGoodsList(cb) {
 				// 打开节流
 				this.isloading = true
 				const {data:res} = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
 				// 关闭节流
-				 this.isloading = false
+				this.isloading = false
+				// 数据请求完 调用cb函数
+				cb && cb()
 				if(res.meta.status !== 200) return uni.$showMsg
 				this.goodsList = [...res.message.goods, ...res.message.goods]
 				this.total = res.message.total
@@ -60,6 +62,16 @@
 			this.queryObj.pagenum += 1
 			// 重新获取列表数据
 			this.getGoodsList()
+		},
+		// 下拉刷新
+		onPullDownRefresh() {
+			// 重置数据 页码数 总数据 节流阀 商品列表数据
+			this.queryObj.pagenum = 1
+			this.total = 0
+			this.isloading = false
+			this.goodsList = []
+			// 重新发起请求
+			this.getGoodsList(()=>{uni.stopPullDownRefresh()})
 		}
 	}
 </script>
