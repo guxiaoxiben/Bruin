@@ -30,7 +30,7 @@
 		
 		<!-- 商品导航 -->
 		<view class="goods_nav">
-			<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @buttonClick="buttonClick"/>
+			<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick" @buttonClick="buttonClick"/>
 		</view>
 	</view>
 </template>
@@ -89,14 +89,13 @@
 				    urls: this.goods_info.pics.map(x => x.pics_big)
 				  })
 			},
-			// 底部导航按钮点击
-			buttonClick(e){
-				console.log('3333',e);
-				if (e.content.text === '加入购物车') {
-					// 切换到购物车页面 
-					uni.switchTab({
-					    url: '/pages/cart/cart'
-					})
+			// 点击购物车
+			onClick(e){
+				if (e.content.text === '购物车') {
+				    // 切换到购物车页面
+				    uni.switchTab({
+				      url: '/pages/cart/cart'
+				    })
 				}
 			}
 		},
