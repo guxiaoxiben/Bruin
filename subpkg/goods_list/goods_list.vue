@@ -52,6 +52,8 @@
 		},
 		// 触底的事件
 		onReachBottom() {
+			// 判断是否显示下一页
+			if(this.queryObj.pagenum * this.queryObj.pagesize >= this.total) return uni.$showMsg('已经到底了！')
 			// 判断是否正在请求其它数据，如果是，则不发起额外的请求
 			if (this.isloading) return
 			// 让页码值自增 +1
