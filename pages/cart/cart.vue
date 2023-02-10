@@ -30,14 +30,14 @@
 			};
 		},
 		methods:{
-			...mapMutations('m_cart', ['updateGoodsState']),
+			...mapMutations('m_cart', ['updateGoodsState','updateGoodsCount']),
 			// 点击 修改选中状态
 			radioChangeHandler(e) {
 				this.updateGoodsState(e)
 			},
 			// 点击获取数量数据
 			numberChangeHandler(e) {
-				console.log(e);
+				this.updateGoodsCount(e)
 			}
 		}
 	}
