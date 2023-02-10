@@ -10,7 +10,7 @@
 		
 		<!-- 商品列表区域 -->
 		<block v-for="(goods, i) in cart" :key="i">
-			<my-goods :goods="goods" :show-radio="true" @radio-change="radioChangeHandler"></my-goods>
+			<my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
 		</block>
 	</view>
 </template>
@@ -34,6 +34,10 @@
 			// 点击 修改选中状态
 			radioChangeHandler(e) {
 				this.updateGoodsState(e)
+			},
+			// 点击获取数量数据
+			numberChangeHandler(e) {
+				console.log(e);
 			}
 		}
 	}
