@@ -46,17 +46,15 @@
 		},
 		watch: {
 		    // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
-		    total: {
-				
+		    total: {	
 		       // handler 属性用来定义侦听器的 function 处理函数
 		       handler(newVal) {
-				   
 		           const findResult = this.options.find(x => x.text === '购物车')
 		           if (findResult) {
 		                findResult.info = newVal
 		            }
 		        },
-		        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+		        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用 
 		        immediate: true
 		    },
 		},
