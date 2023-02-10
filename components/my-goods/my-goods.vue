@@ -2,7 +2,7 @@
   <view class="goods-item">
     <!-- 商品左侧图片区域 -->
     <view class="goods-item-left">
-	  <radio :checked="goods.goods_state" color="#C00000" v-if="showRadio"></radio>
+	  <radio :checked="goods.goods_state" color="#C00000" v-if="showRadio" @click="radioClickHandler"></radio>
       <image :src="goods.goods_small_logo || defaultPic" class="goods-pic"></image>
     </view>
     <!-- 商品右侧信息区域 -->
@@ -42,6 +42,17 @@
 	filters:{
 		toFixed(num){
 			return Number(num).toFixed(2)
+		}
+	},
+	methods:{
+		// 点击切换 选中状态
+		radioClickHandler() {
+			this.$emit('radio-change', {
+			    // 商品的 Id
+			    goods_id: this.goods.goods_id,
+			    // 商品最新的勾选状态
+			    goods_state: !this.goods.goods_state
+			})
 		}
 	}
   }

@@ -28,6 +28,18 @@ export default {
 		// 将购物车中的数据持久化存储到本地
 		saveToStorage(state) {
 		   uni.setStorageSync('cart', JSON.stringify(state.cart))
+		},
+		// 更新购物车中商品的勾选状态
+		updateGoodsState(state, goods) {
+		  // 根据 goods_id 查询购物车中对应商品的信息对象
+		  const findResult = state.cart.find(x => x.goods_id === goods.goods_id)
+		  // 有对应的商品信息对象
+		  if (findResult) {
+		    // 更新对应商品的勾选状态
+		    findResult.goods_state = goods.goods_state
+		    // 持久化存储到本地
+		    this.commit('m_cart/saveToStorage')
+		  }
 		}
   },
 
