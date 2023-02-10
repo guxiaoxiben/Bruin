@@ -9,9 +9,13 @@
 		</view>
 		
 		<!-- 商品列表区域 -->
-		<block v-for="(goods, i) in cart" :key="i">
-			<my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
-		</block>
+		<uni-swipe-action>
+			<block v-for="(goods, i) in cart" :key="i">
+				<uni-swipe-action-item :right-options="options" @click="swipeActionClickHandler(goods)">
+					<my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
+				</uni-swipe-action-item>
+			</block>
+		</uni-swipe-action>
 	</view>
 </template>
 
@@ -26,11 +30,16 @@
 		},
 		data() {
 			return {
-				
+				options:[{
+					text:'删除',
+					style:{
+						backgroundColor: '#C00000'
+					}
+				}]
 			};
 		},
 		methods:{
-			...mapMutations('m_cart', ['updateGoodsState','updateGoodsCount']),
+			...mapMutations('m_cart', ['updateGoodsState','updateGoodsCount','removeGoodsById']),
 			// 点击 修改选中状态
 			radioChangeHandler(e) {
 				this.updateGoodsState(e)
@@ -38,6 +47,10 @@
 			// 点击获取数量数据
 			numberChangeHandler(e) {
 				this.updateGoodsCount(e)
+			},
+			// 点击了滑动操作按钮
+			swipeActionClickHandler(goods) {
+			  this.removeGoodsById(goods.goods_id)
 			}
 		}
 	}
