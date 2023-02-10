@@ -40,10 +40,6 @@
 	import { mapGetters } from 'vuex'
 	
 	export default {
-		computed: {
-		    // 把 m_cart 模块中名称为 total 的 getter 映射到当前页面中使用
-		    ...mapGetters('m_cart', ['total']),
-		},
 		watch: {
 		    // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
 		    total: {	
@@ -57,6 +53,10 @@
 		        // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用 
 		        immediate: true
 		    },
+		},
+		computed: {
+		    // 将 m_cart 模块中的 total 映射为当前页面的计算属性
+		    ...mapGetters('m_cart', ['total']),
 		},
 		data() {
 			return {
