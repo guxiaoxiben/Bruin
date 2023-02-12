@@ -58,7 +58,14 @@
             "es6" : true,
             "minified" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+		// 解决点击地址不能弹出
+		"requiredPrivateInfos": [
+		    "getLocation",
+		    "onLocationChange",
+		    "startLocationUpdateBackground",
+		    "chooseAddress"
+		]
     },
     "mp-alipay" : {
         "usingComponents" : true
