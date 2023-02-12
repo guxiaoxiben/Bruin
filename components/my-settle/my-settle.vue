@@ -34,10 +34,16 @@
 			}
 		},
 		data() {
-			return {}
+			return {
+				// 倒计时的秒数
+				seconds: 3,
+				// 定时器的 Id
+				timer: null
+			}
 		},
 		methods: {
 			...mapMutations('m_cart', ['updateAllGoodsState']),
+			...mapMutations('m_user', ['updateRedirectInfo']),
 			changeAllState() {
 				// 修改购物车中所有商品的选中状态
 				// !this.isFullCheck 表示：当前全选按钮的状态取反之后，就是最新的勾选状态
@@ -52,8 +58,58 @@
 				if (!this.addstr) return uni.$showMsg('请选择收货地址！')
 
 				// 3. 最后判断用户是否登录了
-				if (!this.token) return uni.$showMsg('请先登录！')
-			}
+				// if (!this.token) return uni.$showMsg('请先登录！')
+				if (!this.token) return this.delayNavigate()
+			},
+			// 展示倒计时的提示消息
+			showTips(n) {
+				// 调用 uni.showToast() 方法，展示提示消息
+				uni.showToast({
+					// 不展示任何图标
+					icon: 'none',
+					// 提示的消息
+					title: '请登录后再结算！' + n + ' 秒后自动跳转到登录页',
+					// 为页面添加透明遮罩，防止点击穿透
+					mask: true,
+					// 1.5 秒后自动消失
+					duration: 1500
+				})
+			},
+			// 延迟导航到 my 页面
+			delayNavigate() {
+				this.seconds = 3
+				// 1. 展示提示消息，此时 seconds 的值等于 3
+				this.showTips(this.seconds)
+
+				// 2. 创建定时器，每隔 1 秒执行一次
+				this.timer = setInterval(() => {
+					// 2.1 先让秒数自减 1
+					this.seconds--
+					// 2. 判断秒数是否 <= 0
+					if (this.seconds <= 0) {
+						// 2.1 清除定时器
+						clearInterval(this.timer)
+
+						// 2.2 跳转到 my 页面
+						uni.switchTab({
+							url: '/pages/my/my',
+							success: () => {
+								this.updateRedirectInfo({
+									// 跳转的方式
+									openType: 'switchTab',
+									// 从哪个页面跳转过去的
+									from: '/pages/cart/cart'
+								})
+							}
+						})
+
+						// 2.3 终止后续代码的运行（当秒数为 0 时，不再展示 toast 提示消息）
+						return
+					}
+					// 2.2 再根据最新的秒数，进行消息提示
+					this.showTips(this.seconds)
+				}, 1000)
+			},
 		}
 	}
 </script>
