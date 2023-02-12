@@ -8,7 +8,7 @@
 
 		<!-- 合计区域 -->
 		<view class="amount-box">
-			合计:<text class="amount">￥1234.00</text>
+			合计:<text class="amount">￥{{checkedGoodsAmount}}</text>
 		</view>
 
 		<!-- 结算按钮 -->
@@ -24,7 +24,7 @@
 
 	export default {
 		computed: {
-			...mapGetters('m_cart', ['checkedCount', 'total']),
+			...mapGetters('m_cart', ['checkedCount', 'total', 'checkedGoodsAmount']),
 			// 判断是否全选
 			isFullCheck() {
 				return this.total === this.checkedCount
