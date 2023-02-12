@@ -1,5 +1,5 @@
 <template>
-	<view class="cart-container">
+	<view class="cart-container" v-if="cart.length !== 0">
 		<!-- 收货地址 -->
 		<my-address></my-address>
 
@@ -23,6 +23,12 @@
 
 		<!-- 结算 -->
 		<my-settle></my-settle>
+	</view>
+
+	<!-- 空白购物车区域 -->
+	<view class="empty-cart" v-else>
+		<image src="/static/xiaoshuilan.jpeg" class="empty-img"></image>
+		<text class="tip-text">空空如也~</text>
 	</view>
 </template>
 
@@ -81,6 +87,25 @@
 
 		.cart-title-text {
 			margin-left: 10px;
+		}
+	}
+
+	// 空白购物车
+	.empty-cart {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 150px;
+
+		.empty-img {
+			width: 130px;
+			height: 130px;
+		}
+
+		.tip-text {
+			font-size: 12px;
+			color: gray;
+			margin-top: 15px;
 		}
 	}
 </style>
