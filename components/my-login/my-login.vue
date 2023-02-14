@@ -41,7 +41,6 @@
 					desc: '登录后可同步数据',
 					lang: 'zh_CN',
 					success: (res) => {
-						console.log(res);
 						this.updateUserInfo(res.userInfo)
 						this.getToken(res)
 					},
